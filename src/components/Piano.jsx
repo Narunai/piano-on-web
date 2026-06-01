@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import * as Tone from 'tone';
 import PianoKey from './PianoKey';
 import usePianoSound from '../hooks/usePianoSound';
 import '../styles/Piano.css';
