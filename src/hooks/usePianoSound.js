@@ -34,6 +34,25 @@ const usePianoSound = (oscillatorType = 'triangle', releaseTime = 1) => {
     };
   }, []);
 
+  // Update instrument and settings when they change
+  useEffect(() => {
+    currentType.current = oscillatorType;
+    if (oscillatorType === 'grand-piano') {
+      loadSampler();
+    } else if (synth.current) {
+      synth.current.set({ oscillator: { type: oscillatorType } });
+    }
+  }, [oscillatorType]);
+
+  useEffect(() => {
+    if (synth.current) {
+      synth.current.set({ envelope: { release: releaseTime } });
+    }
+    if (sharedSampler) {
+      sharedSampler.release = releaseTime;
+    }
+  }, [releaseTime]);
+
   const loadSampler = async () => {
     if (sharedSampler) {
       setIsLoaded(true);

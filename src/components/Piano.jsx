@@ -134,7 +134,12 @@ const Piano = () => {
     return map;
   }, [playMode, oneHandWhiteKeys, oneHandBlackKeys, dualChordKeys, dualMelodyKeys, dualBlackKeys, chordShift, melodyShift]);
 
-  const handlePlay = useCallback((note, section) => {
+  const handlePlay = useCallback(async (note, section) => {
+    // Ensure AudioContext is started on first interaction
+    if (Tone.getContext().state !== 'running') {
+      await Tone.start();
+    }
+    
     setActiveNotes((prev) => new Set(prev).add(note));
     if (section === 'chord') {
       chordSynth.playNote(note);
